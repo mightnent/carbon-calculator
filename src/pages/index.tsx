@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Head from 'next/head'
@@ -7,8 +7,12 @@ import { Inter } from 'next/font/google'
 import { Container,Stack, HStack, VStack,Card, CardBody, Heading, Text, Flex,Button } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { CardVariants } from '@/types';
+import React, { useRef } from "react";
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei';
 
-
+import Globe from '@/components/Globe';
+import styles from '../styles/index.module.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -51,9 +55,10 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
         </Head>
         <main>
+            
             <Container maxW='2xl' centerContent mt={10}>
                 <Flex direction="column" align="stretch">
-                    <Text>
+                    <Text color={'white'}>
                         I'm a simple GHG calculator for companies! Choose the categories that you want to disclose and I'll estimate your CO2 equivalent. I'll also group your emissions into Scope 1, 2, and 3 and generate a simple report &#x1F600;
                     </Text>
                     <Card 
@@ -114,8 +119,9 @@ export default function Home() {
                     </Card>
                     <Button 
                         rightIcon={<ArrowForwardIcon />} 
-                        colorScheme='teal' 
-                        variant='outline' 
+                        _hover={{ bg: '#b2f5ea' }}
+                        bg="teal"
+                        variant='solid' 
                         mt={4} 
                         onClick={clickButton}
                     >
@@ -123,6 +129,21 @@ export default function Home() {
                     </Button>
                 </Flex>
             </Container>
+
+            <div className={styles.canvasContainer} style={{backgroundImage: "url('/universe.jpg')"}}>
+                <Canvas camera={{ 
+                        fov:90,
+                        near: 1, 
+                        far:20,
+                        position: [0, 2, 7] 
+                    }}>
+                    <OrbitControls/>
+                    <Suspense>
+        
+                        <Globe/>
+                    </Suspense>
+                </Canvas>
+            </div>
 
         </main>
     </>

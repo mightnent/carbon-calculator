@@ -1,38 +1,123 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Container,Flex,Button,Card, CardBody, Heading,Text } from '@chakra-ui/react';
+import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
 
-import { CardVariants } from '@/types';
-import StationaryCombustion from '@/components/stationary-combustion';
-import PurchasedElectricity from '@/components/purchased-electricity';
-import DailyCommutes from '@/components/daily-commutes';
-import Holidays from '@/components/holidays';
-import { Container } from '@chakra-ui/react';
+import StationaryCombustion from '@/components/StationaryCombustion';
+import PurchasedElectricity from '@/components/PurchasedElectricity';
+import DailyCommutes from '@/components/DailyCommutes';
+import Holidays from '@/components/Holidays';
+import { calculateCarbon } from '@/CalculateCarbon';
 
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Calculator = () => {
 
     const router = useRouter();
     const { prop } = router.query;
-    console.log('router.query', router.query)
 
     const hasStationaryCombustion = prop?.includes('stationary_combustion');
     const hasPurchasedElectricity = prop?.includes('purchased_electricity');
     const hasDailyCommutes = prop?.includes('daily_commutes');
     const hasHolidays = prop?.includes('holidays');
 
+    const [combustionValue, setCombustionValue] = useState({});
+    const [electricityValue, setElectricityValue] = useState({});
+    const [dailyCommutesValue, setDailyCommutesValue] = useState({});
+    const [holidaysValue, setHolidaysValue] = useState({});
+    const [question,setQuestion] = useState(true);
+    const [response,setResponse] = useState({stationaryCombustionCO2:"",purchasedElectricityCo2:"",dailyCommutesCO2:"",holidaysCO2:""});
 
-    useEffect(() => {
-        // Access and use the prop as needed
-        console.log(prop);
-      }, [prop]);
+    const handleStationaryCombustion = (inputValues: any) => {
+        setCombustionValue(inputValues);
+    };
+
+    const handlePurchasedElectricity = (inputValues: any) => {
+        setElectricityValue(inputValues);
+    };
+
+    const handleDailyCommutes = (inputValues: any) => {
+        setDailyCommutesValue(inputValues);
+    }
+
+    const handleHolidays = (inputValues: any) => {
+        setHolidaysValue(inputValues);
+    }
+
+    const submitHandler = (e:any) =>{
+        e.preventDefault();
+        setQuestion(false);
+        const calculatorResponse = calculateCarbon(combustionValue, electricityValue, dailyCommutesValue, holidaysValue);
+        setResponse(calculatorResponse);
+    }
+
+     const chartData = {
+        labels:['Scope 1','Scope 2','Scope 3'],
+        datasets:[
+            {
+            data:[parseFloat(response.stationaryCombustionCO2),parseFloat(response.purchasedElectricityCo2),parseFloat(response.dailyCommutesCO2)+parseFloat(response.holidaysCO2)],
+            backgroundColor: ["rgb(59,163,166)","rgb(116,104,222)","rgb(249,155,46)"]
+            }
+        ]    
+     }
+
 
     return (
+     
         <Container centerContent>
-            {hasStationaryCombustion && <StationaryCombustion />}
-            {hasPurchasedElectricity && <PurchasedElectricity />}
-            {hasDailyCommutes && <DailyCommutes />}
-            {hasHolidays && <Holidays />}
+            {question &&
+                <Flex direction="column" align="stretch">
+                    {hasStationaryCombustion && <StationaryCombustion onInputChange={handleStationaryCombustion} />}
+                    {hasPurchasedElectricity && <PurchasedElectricity onInputChange={handlePurchasedElectricity}/>}
+                    {hasDailyCommutes && <DailyCommutes onInputChange={handleDailyCommutes}/>}
+                    {hasHolidays && <Holidays onInputChange={handleHolidays}/>}
+                    
+                    <Button 
+                        rightIcon={<ArrowForwardIcon />} 
+                        _hover={{ bg: '#b2f5ea' }}
+                        bg="teal"
+                        variant='solid' 
+                        mt={4} 
+                        onClick={submitHandler}
+                        mx={3}
+                    >
+                        Next
+                    </Button>
+                </Flex>
+            }
+            {!question &&
+                <Flex direction="column" align="stretch">
+                    <Card mt={4} minWidth={400}>
+                        <CardBody>
+                            <Pie data={chartData} />
+                            <Heading size="md" mb={2} mt={4}>Your Carbon Report</Heading>
+                            <Text as="b">
+                                Scope 1: 
+                            </Text>
+                            <Text>
+                                Stationary Combusion: {response.stationaryCombustionCO2} KG CO2
+                            </Text>
+                            <Text as="b">
+                                Scope 2:
+                            </Text>
+                            <Text>
+                                Purchased Electricity: {response.purchasedElectricityCo2} KG CO2
+                            </Text>
+                            <Text as="b">
+                                Scope 3:
+                            </Text>
+                            <Text>
+                                Daily Commutes: {response.dailyCommutesCO2} KG CO2
+                            </Text>
+                            <Text>
+                                Holidays: {response.holidaysCO2} KG CO2
+                            </Text>
+                        </CardBody>
+                    </Card>
+                </Flex>
+            }
         </Container>
     );
 };

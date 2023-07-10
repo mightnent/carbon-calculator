@@ -43,7 +43,9 @@ export default function Home() {
     const clickButton = (e:any) =>{
         e.preventDefault();
         const propString = getObjectString(cardVariants);
-        router.push(`/calculator?prop=${propString}`);
+        if (propString !== '') {
+            router.push(`/calculator?prop=${propString}`);
+        }
     }
 
     return (

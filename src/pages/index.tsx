@@ -69,7 +69,7 @@ export default function Home() {
                         variant={cardVariants.stationary_combustion} 
                         onClick={() => toggleVariant('stationary_combustion')}
                         _hover={{ cursor: 'pointer' }}
-                        bg={cardVariants.stationary_combustion === "filled" ? "#b2f5ea" : undefined}
+                        bg={cardVariants.stationary_combustion === "filled" ? "#b2f5ea" : "rgba(255, 255, 255, 0.8)"}
                     >
                         <CardBody>
                             <Heading size="md" mb={2}>Scope 1: Stationary Combustion</Heading>
@@ -83,7 +83,7 @@ export default function Home() {
                         variant={cardVariants.purchased_electricity} 
                         onClick={() => toggleVariant('purchased_electricity')}
                         _hover={{ cursor: 'pointer' }}
-                        bg={cardVariants.purchased_electricity === "filled" ? "#b2f5ea" : undefined}
+                        bg={cardVariants.purchased_electricity === "filled" ? "#b2f5ea" : "rgba(255, 255, 255, 0.8)"}
                     >
                         <CardBody>
                             <Heading size="md" mb={2}>Scope 2: Purchased Electricity</Heading>
@@ -97,7 +97,7 @@ export default function Home() {
                         variant={cardVariants.daily_commutes} 
                         onClick={() => toggleVariant('daily_commutes')}
                         _hover={{ cursor: 'pointer' }}
-                        bg={cardVariants.daily_commutes === "filled" ? "#b2f5ea" : undefined}
+                        bg={cardVariants.daily_commutes === "filled" ? "#b2f5ea" : "rgba(255, 255, 255, 0.8)"}
                     >
                         <CardBody>
                             <Heading size="md" mb={2}>Scope 3: Daily commutes</Heading>
@@ -111,7 +111,7 @@ export default function Home() {
                         variant={cardVariants.holidays} 
                         onClick={() => toggleVariant('holidays')}
                         _hover={{ cursor: 'pointer' }}
-                        bg={cardVariants.holidays === "filled" ? "#b2f5ea" : undefined}
+                        bg={cardVariants.holidays === "filled" ? "#b2f5ea" : "rgba(255, 255, 255, 0.8)"}
                     >
                         <CardBody>
                             <Heading size="md" mb={2}>Scope 3: Holidays</Heading>

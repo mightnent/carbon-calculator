@@ -136,7 +136,7 @@ const Calculator = () => {
                                     <br/>
                                     4. Train emission factor is taken from GHG Cross Sector Tools
                                     <br/>
-                                    5. Bus emission factor is from Singpore SBS's Sustainability report, assuming MAN A22 EURO 6 Diesel Bus
+                                    5. Bus emission factor is from Singpore SBS Sustainability report, assuming MAN A22 EURO 6 Diesel Bus
                                     <br/>
                                     6. Flight emission factor is following the IATA CO2 Connect methodology
                                     </AccordionPanel>

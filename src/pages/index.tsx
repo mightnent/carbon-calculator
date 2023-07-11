@@ -60,9 +60,10 @@ export default function Home() {
             
             <Container maxW='2xl' centerContent mt={10}>
                 <Flex direction="column" align="stretch">
-                    <Text color={'white'}>
-                        I'm a simple GHG calculator for companies! Choose the categories that you want to disclose and I'll estimate your CO2 equivalent. I'll also group your emissions into Scope 1, 2, and 3 and generate a simple report &#x1F600;
-                    </Text>
+                <Text color={'white'}>
+                    I&apos;m a simple GHG calculator for companies! Choose the categories that you want to disclose and I&apos;ll estimate your CO2 equivalent. I&apos;ll also group your emissions into Scope 1, 2, and 3 and generate a simple report &#x1F600;
+                </Text>
+
                     <Card 
                         mt={4}
                         variant={cardVariants.stationary_combustion} 

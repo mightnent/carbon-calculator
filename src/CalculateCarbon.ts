@@ -4,18 +4,19 @@ export const calculateCarbon = (combustionValue: object,electricityValue: object
     let motorGasolineCO2 = 0;
     let diesel_oil = 0;
     
-    if("motor_gasoline" in combustionValue){
+    if("motor_gasoline" in combustionValue && combustionValue?.motor_gasoline !== ""){
         motorGasolineCO2 = 2.27 * parseFloat(combustionValue?.motor_gasoline as string)
     }
-    if("diesel_oil" in combustionValue){
+    if("diesel_oil" in combustionValue && combustionValue?.diesel_oil !== ""){
         diesel_oil = 2.27 * parseFloat(combustionValue?.diesel_oil as string)
     }
+  
     const stationaryCombustionCO2:string = ((motorGasolineCO2 + diesel_oil)*12).toFixed(2);
 
     //calculate electricity co2
     let electricityCO2 = 0;
 
-    if("electricity" in electricityValue){
+    if("electricity" in electricityValue && electricityValue?.electricity!==""){
         electricityCO2 = 0.4057 * parseFloat(electricityValue?.electricity as string) * 12
     }   
 
@@ -27,19 +28,20 @@ export const calculateCarbon = (combustionValue: object,electricityValue: object
     let bus=0
     let train=0
 
-    if("ice" in dailyCommutesValue){
+    if("ice" in dailyCommutesValue && dailyCommutesValue?.ice!==""){
         ice = 0.120 * parseFloat(dailyCommutesValue?.ice as string)
+        console.log("ice "+ ice)
     }
-    if("ev" in dailyCommutesValue){
+    if("ev" in dailyCommutesValue && dailyCommutesValue?.ev!==""){
         ev = 0.9 * parseFloat(dailyCommutesValue?.ev as string)
     }
-    if("bus" in dailyCommutesValue){
+    if("bus" in dailyCommutesValue && dailyCommutesValue?.bus!==""){
         bus = 4.39 * parseFloat(dailyCommutesValue?.bus as string)/60
     }
-    if("train" in dailyCommutesValue){
+    if("train" in dailyCommutesValue && dailyCommutesValue?.train!==""){
         train = 0.262724 * parseFloat(dailyCommutesValue?.train as string)
     }
-
+    
     const dailyCommutesCO2:string = ((ice + ev + bus + train)*250).toFixed(2);
 
     //calculate holidays co2

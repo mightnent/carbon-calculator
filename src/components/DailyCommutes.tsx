@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { Container, Card, CardBody, Heading, Text, Flex,Input,InputGroup,InputLeftAddon, InputRightAddon } from '@chakra-ui/react'
+import { Container, Card, CardBody, Heading, Text, Flex } from '@chakra-ui/react'
+
+import LeftRightAddonInput from './LeftRightAddonInput';
 
 const DailyCommutes = ({ onInputChange }: { onInputChange: (inputValues: any) => void }) => {
 
@@ -24,7 +26,8 @@ const DailyCommutes = ({ onInputChange }: { onInputChange: (inputValues: any) =>
     useEffect(() => {
     // Call onInputChange whenever inputValues change
     onInputChange(inputValues);
-    }, [inputValues]);
+	console.log(inputValues)
+    }, [inputValues,onInputChange]);
 
     return (
         <Container>
@@ -39,72 +42,48 @@ const DailyCommutes = ({ onInputChange }: { onInputChange: (inputValues: any) =>
 						For the values below, please give a daily estimate for a work day. The system will automatically calculate the annual emissions (working days) based on the values given.
 						</Text>
 
-						<InputGroup size='md' mt={2}>
-							<InputLeftAddon children='ICE Car' width={100}/>
-							<Input
-								type="text"
-								value={inputValues.ice}
-								name='ice'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='KM' />
-						</InputGroup>
-						<InputGroup size='md' mt={2}>
-							<InputLeftAddon children='EV Car' width={100}/>
-							<Input
-								type="text"
-								value={inputValues.ev}
-								name='ev'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='KM' />
-						</InputGroup>
-                        <InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Bus' width={100}/>
-							<Input
-								type="text"
-								value={inputValues.bus}
-								name='bus'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='KM' />
-						</InputGroup>
-                        <InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Train' width={100} />
-							<Input
-								type="text"
-								value={inputValues.train}
-								name='train'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='KM' />
-						</InputGroup>
-                        <InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Cycle' width={100} />
-							<Input
-								type="text"
-								value={inputValues.cycle}
-								name='cycle'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='KM' />
-						</InputGroup>
-                        <InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Walk' width={100} />
-							<Input
-								type="text"
-								value={inputValues.walk}
-								name='walk'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='KM' />
-						</InputGroup>
+						
+						<LeftRightAddonInput left='ICE Car' right='KM' value={inputValues.ice} name='ice' onChange={handleInputChange} />
+						<LeftRightAddonInput
+							left="EV Car"
+							right="KM"
+							value={inputValues.ev}
+							name="ev"
+							onChange={handleInputChange}
+						/>
+
+						<LeftRightAddonInput
+							left="Bus"
+							right="KM"
+							value={inputValues.bus}
+							name="bus"
+							onChange={handleInputChange}
+						/>
+
+						<LeftRightAddonInput
+							left="Train"
+							right="KM"
+							value={inputValues.train}
+							name="train"
+							onChange={handleInputChange}
+						/>
+
+						<LeftRightAddonInput
+							left="Cycle"
+							right="KM"
+							value={inputValues.cycle}
+							name="cycle"
+							onChange={handleInputChange}
+						/>
+
+						<LeftRightAddonInput
+							left="Walk"
+							right="KM"
+							value={inputValues.walk}
+							name="walk"
+							onChange={handleInputChange}
+						/>
+
 					</CardBody>
 				</Card>
 			</Flex>

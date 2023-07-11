@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { Container,Stack, HStack, VStack,Card, CardBody, Heading, Text, Flex,Button,Input,FormControl,FormLabel, InputGroup,InputLeftAddon, InputRightAddon} from '@chakra-ui/react'
+import { Container,Card, CardBody, Heading, Text, Flex} from '@chakra-ui/react'
+
+import LeftRightAddonInput from './LeftRightAddonInput';
 
 const PurchasedElectricity = ({ onInputChange }: { onInputChange: (inputValues: any) => void }) => {
 
@@ -20,7 +22,7 @@ const PurchasedElectricity = ({ onInputChange }: { onInputChange: (inputValues: 
   useEffect(() => {
 		// Call onInputChange whenever inputValues change
 		onInputChange(inputValues);
-	  }, [inputValues]);
+	  }, [inputValues,onInputChange]);
 
   return (
     <Container>
@@ -35,17 +37,13 @@ const PurchasedElectricity = ({ onInputChange }: { onInputChange: (inputValues: 
 						For the values below, please give a monthly estimate. The system will automatically calculate the annual emissions based on the values given.
 						</Text>
 
-						<InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Electricity' />
-							<Input
-								type="text"
-								value={inputValues.electricity}
-								name='electricity'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='kWh' />
-						</InputGroup>
+						<LeftRightAddonInput
+						left="Electricity"
+						right="kWh"
+						value={inputValues.electricity}
+						name="electricity"
+						onChange={handleInputChange}
+						/>
 						
 					</CardBody>
 				</Card>

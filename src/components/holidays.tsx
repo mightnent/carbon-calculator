@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { Container, Card, CardBody, Heading, Text, Flex,Input,InputGroup,InputLeftAddon, InputRightAddon, Select } from '@chakra-ui/react'
+import { Container, Card, CardBody, Heading, Text, Flex,Select } from '@chakra-ui/react'
+
+import LeftRightAddonInput from './LeftRightAddonInput';
 
 const Holidays = ({ onInputChange }: { onInputChange: (inputValues: any) => void }) => {
     
@@ -29,7 +31,7 @@ const Holidays = ({ onInputChange }: { onInputChange: (inputValues: any) => void
 	useEffect(() => {
 		// Call onInputChange whenever inputValues change
 		onInputChange(inputValues);
-	  }, [inputValues]);
+	  }, [inputValues,onInputChange]);
 
     return (
         <Container>
@@ -44,17 +46,13 @@ const Holidays = ({ onInputChange }: { onInputChange: (inputValues: any) => void
 						For the values below, please give a annual estimate for flight time, cabin type and aircraft type.
 						</Text>
 
-						<InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Flight Time'/>
-							<Input
-								type="text"
-								value={inputValues.flightTime}
-								name='flightTime'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='Min' />
-						</InputGroup>
+						<LeftRightAddonInput
+                        left="Flight Time"
+                        right="Min"
+                        value={inputValues.flightTime}
+                        name="flightTime"
+                        onChange={handleInputChange}
+                        />
                         
                         <Select 
                             variant='filled' 
@@ -64,6 +62,7 @@ const Holidays = ({ onInputChange }: { onInputChange: (inputValues: any) => void
                             mt={2}
                             value={inputValues.craftType}
                             onChange={handleSelectChange}
+                            isRequired
                         >
                             <option value='wide'>Wide Aircraft (2 aisle)</option>
                             <option value='narrow'>Narrow Aircraft (1 aisle)</option>
@@ -77,6 +76,7 @@ const Holidays = ({ onInputChange }: { onInputChange: (inputValues: any) => void
                             mt={2}
                             value={inputValues.cabinType}
                             onChange={handleSelectChange}
+                            isRequired
                         >
                             <option value='economy'>Economy</option>
                             <option value='premiumEconomy'>Premium Economy</option>

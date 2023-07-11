@@ -1,6 +1,8 @@
 import React, { useState,useEffect } from 'react';
 import { Container,Stack, HStack, VStack,Card, CardBody, Heading, Text, Flex,Button,Input,FormControl,FormLabel, InputGroup,InputLeftAddon, InputRightAddon} from '@chakra-ui/react'
 
+import LeftRightAddonInput from './LeftRightAddonInput';
+
 const StationaryCombustion = ({ onInputChange }: { onInputChange: (inputValues: any) => void }) => {
 
 	const [inputValues, setInputValues] = useState({
@@ -21,7 +23,7 @@ const StationaryCombustion = ({ onInputChange }: { onInputChange: (inputValues: 
 	useEffect(() => {
 		// Call onInputChange whenever inputValues change
 		onInputChange(inputValues);
-	  }, [inputValues]);
+	  }, [inputValues, onInputChange]);
 	
 	// Render the form with input fields
 	return (
@@ -37,28 +39,21 @@ const StationaryCombustion = ({ onInputChange }: { onInputChange: (inputValues: 
 						For the values below, please give a monthly estimate. The system will automatically calculate the annual emissions based on the values given.
 						</Text>
 
-						<InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Motor gasoline' />
-							<Input
-								type="text"
-								value={inputValues.motor_gasoline}
-								name='motor_gasoline'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='Litre' />
-						</InputGroup>
-						<InputGroup size='md' mt={2}>
-							<InputLeftAddon children='Gas/Diesel Oil' />
-							<Input
-								type="text"
-								value={inputValues.diesel_oil}
-								name='diesel_oil'
-								size="md"
-								onChange={handleInputChange}
-							/>
-							<InputRightAddon children='Litre' />
-						</InputGroup>
+						<LeftRightAddonInput
+						left="Motor gasoline"
+						right="Litre"
+						value={inputValues.motor_gasoline}
+						name="motor_gasoline"
+						onChange={handleInputChange}
+						/>
+
+						<LeftRightAddonInput
+						left="Gas/Diesel Oil"
+						right="Litre"
+						value={inputValues.diesel_oil}
+						name="diesel_oil"
+						onChange={handleInputChange}
+						/>
 					</CardBody>
 				</Card>
 			</Flex>

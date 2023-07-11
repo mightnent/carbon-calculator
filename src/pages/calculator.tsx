@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Container,Flex,Button,Card, CardBody, Heading,Text } from '@chakra-ui/react';
+import { Container,Flex,Button,Card, CardBody, Heading,Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { useMediaQuery } from 'react-responsive';
 
 import StationaryCombustion from '@/components/StationaryCombustion';
 import PurchasedElectricity from '@/components/PurchasedElectricity';
@@ -14,6 +15,8 @@ import { calculateCarbon } from '@/CalculateCarbon';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Calculator = () => {
+
+    const isLargeScreen = useMediaQuery({ minWidth: 800 });
 
     const router = useRouter();
     const { prop } = router.query;
@@ -89,7 +92,7 @@ const Calculator = () => {
             }
             {!question &&
                 <Flex direction="column" align="stretch">
-                    <Card mt={4} minWidth={400}>
+                    <Card mt={4} minWidth={isLargeScreen ? '500px' : '300'} >
                         <CardBody>
                             <Pie data={chartData} />
                             <Heading size="md" mb={2} mt={4}>Your Carbon Report</Heading>
@@ -114,9 +117,36 @@ const Calculator = () => {
                             <Text>
                                 Holidays: {response.holidaysCO2} KG CO2
                             </Text>
+                            <Accordion allowToggle mt={4}>
+                                <AccordionItem>
+                                    <h2>
+                                    <AccordionButton>
+                                        <Box as="span" flex='1' textAlign='left'>
+                                        Calculation Methodology
+                                        </Box>
+                                        <AccordionIcon />
+                                    </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel pb={4}>
+                                    1. Stationary Combustion values are taken from GHG Cross Sector Tools
+                                    <br/>
+                                    2. Grid Emission Factor is taken from Singapore EMA data
+                                    <br/>
+                                    3. Car (internal combustion and EV) emission factors are assumptions that the cars fall under Singapore LTA Band A2
+                                    <br/>
+                                    4. Train emission factor is taken from GHG Cross Sector Tools
+                                    <br/>
+                                    5. Bus emission factor is from Singpore SBS's Sustainability report, assuming MAN A22 EURO 6 Diesel Bus
+                                    <br/>
+                                    6. Flight emission factor is following the IATA CO2 Connect methodology
+                                    </AccordionPanel>
+                                </AccordionItem>
+                            </Accordion>
                         </CardBody>
                     </Card>
+                    
                 </Flex>
+                
             }
         </Container>
     );
